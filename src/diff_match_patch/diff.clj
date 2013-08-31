@@ -2,36 +2,22 @@
   (:import [name.fraser.neil.plaintext diff_match_patch$Operation])
   (:require [clojure.string :as string]))
 
-(defn diff [txt1 txt2] 
+(defn calc-diffs [txt1 txt2] 
    "Finds the differences between 2 texts."
     (.diff_main *diffor* txt1 txt2))
 
-(defmulti cleanup!  
+(defn cleanup!  
   "Reduces the number of edits by eliminating semantically trivial equalities"
-  (fn [cleanup-type diffs] (identity cleanup-type)))
-
-(defmethod cleanup! :semantic [cleanup-type diffs]
+  [diffs & {:keys [method]                            
+            :or {:method nil}}]
   (do
-    (.diff_cleanupSemantic *diffor* diffs)
+    (condp = method
+      :semantic   (.diff_cleanupSemantic *diffor* diffs)
+      :lossless   (.diff_cleanupSemanticLossless *diffor* diffs)
+      :efficiency (.diff_cleanupEfficiency *diffor* diffs)
+      :merge      (.diff_cleanupMerge *diffor* diffs)
+      (println "Warning! Wrong method. [:semantic, :lossless, :efficiency, :merge]"))
     diffs))
-
-(defmethod cleanup! :lossless [cleanup-type diffs]
-  (do
-    (.diff_cleanupSemanticLossless *diffor* diffs)
-    diffs))
-
-(defmethod cleanup! :efficiency [cleanup-type diffs]
-  (do
-    (.diff_cleanupEfficiency *diffor* diffs)
-    diffs))
-
-(defmethod cleanup! :merge [cleanup-type diffs]
-  (do
-    (.diff_cleanupMerge *diffor* diffs)
-    diffs))
-
-(defmethod cleanup! :default [cleansing-type diffs]
-  :oops)
 
 (defn levenshtein [diffs]
   (.diff_levenshtein *diffor* diffs))
@@ -47,10 +33,6 @@
 (defn x-index [diffs, ^:Integer loc]
   "Computes and returns the equivalent location in text2 for location is text1"
   (.diff_xIndex *diffor* diffs loc))
-
-(defn pretty-html [diffs]
-  "Converts a diff list into a pretty HTML report."
-  (.diff_prettyHtml *diffor* diffs))
 
 (defn to-source-text [diffs]
   "Computes and returns the source text from list of diff objects."
@@ -71,6 +53,11 @@
   "given the original text1 and an encoded string which describes the operations
   required to transform text1 into text2, and computes the full diff."
   (.diff_fromDelta *diffor* text1 delta-text))
+
+(defn pretty-html [diffs]
+  "Converts a diff list into a pretty HTML report."
+  (.diff_prettyHtml *diffor* diffs))
+
 
 (defn- get-op [diff]
   (let [op-string (.. diff operation toString)]
