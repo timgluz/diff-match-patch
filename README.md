@@ -1,10 +1,10 @@
 # diff-match-patch
+Clojure wrapper for Java's [google-diff-match](https://code.google.com/p/google-diff-match-patch/wiki/API) library.
 
-A Clojure library designed to ... well, that part is up to you.
 
 ## Usage
 
-FIXME
+Coming soon ... working on test.
 
 ## License
 
