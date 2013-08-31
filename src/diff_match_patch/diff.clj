@@ -89,7 +89,7 @@
             current-pos @pos]
         (when-not (= :delete op-key)
           (swap! pos #(+ diff-length %1)))
-        (vector op-key 
+        (vector :span
                 {:class (name op-key)
                  :data-length diff-length
                  :data-start current-pos} 
