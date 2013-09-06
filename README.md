@@ -2,17 +2,19 @@
 Clojure wrapper for Java's [google-diff-match](https://code.google.com/p/google-diff-match-patch/wiki/API) library.
 
 ## Install
-[diff-match-patch "0.1.0-SNAPSHOT"]
+**[diff-match-patch "0.1.0-SNAPSHOT"]**
 
 ## Usage
 
-**(require '[diff-match-patch :as dmp])**
 
 *ps: function name may not match 1-to-1 with original Java names*
 
 **Using diff functionalities**
 
 ```
+
+(require '[diff-match-patch.core :as dmp])
+
 ;; calc diffs
 
 repl> (def diffs (dmp/calc-diffs "Text1" "Text2"))
