@@ -58,7 +58,6 @@
   "Converts a diff list into a pretty HTML report."
   (.diff_prettyHtml *diffor* diffs))
 
-
 (defn- get-op [diff]
   (let [op-string (.. diff operation toString)]
     (-> op-string str string/lower-case keyword)))
