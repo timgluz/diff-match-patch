@@ -1,4 +1,6 @@
 # diff-match-patch
+[![Dependency Status](http://www.versioneye.com/clojure/diff-match-patch:diff-match-patch/0.1.0-SNAPSHOT/badge.png)](http://www.versioneye.com/clojure/diff-match-patch:diff-match-patch/0.1.0-SNAPSHOT)
+
 Clojure wrapper for Java's [google-diff-match](https://code.google.com/p/google-diff-match-patch/wiki/API) library.
 
 ## Install
